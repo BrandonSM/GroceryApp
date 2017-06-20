@@ -7,47 +7,73 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  ListView,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 
-export default class GroceryApp extends Component {
+// Imports Firebase from package
+import * as firebase from 'firebase';
+
+// Initialize Firebase code
+const firebaseConfig = {
+  apiKey: "AIzaSyAj2m0HnMjnFrruqUzKF1Q7ca0My0RK0bk",
+  authDomain: "test-groceryapp.firebaseapp.com",
+  databaseURL: "https://test-groceryapp.firebaseio.com",
+  storageBucket: "test-groceryapp.appspot.com",
+};
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+// Import styles
+const styles = require('./assets/styles/styles.js')
+
+// Imports components
+const StatusBar = require('./components/StatusBar');
+const ActionButton = require('./components/ActionButton');
+const ListItem = require('./components/ListItem');
+
+// Main App code
+class GroceryApp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+     })
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows([{ title: 'Pizza' }])
+    })
+  }
+
+  _renderItem(item) {
+    return (
+      <ListItem item={item} onpress={this} />
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+
+        <StatusBar title="Grocery List"/>
+
+        <ListView 
+          dataSource={this.state.dataSource} 
+          renderRow={this._renderItem.bind(this)} 
+          style={styles.listview} />
+
+        <ActionButton 
+          title="Add"  
+          onpress={this} />
+
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 
 AppRegistry.registerComponent('GroceryApp', () => GroceryApp);
