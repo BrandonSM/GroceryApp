@@ -1,4 +1,5 @@
 'use strict';
+
 import React, {Component} from 'react';
 import ReactNative from 'react-native';
 const styles = require('../assets/styles/styles.js')
