@@ -57,7 +57,7 @@ class GroceryApp extends Component {
   componentDidMount() {
     /* Sets the initial state of the component to 'Pizza' */
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows([{ title: 'Pizza' }])
+      dataSource: this.state.dataSource.cloneWithRows([{ title: '' }])
     })
 
     /* Adds the event listener to the component after the state is set */
