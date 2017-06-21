@@ -2,6 +2,14 @@
 Grocery app for me and wifey - BrandonSM
 */
 
+/* 
+-- TO DO --
+ 
+ - Add login section
+ - Add "who" added the item
+ - Add auto-complete for product lookup (if exists in database, display -- if not, add to database)
+*/
+
 import React, { Component } from 'react';
 import {
   AlertIOS,
@@ -45,8 +53,9 @@ class GroceryApp extends Component {
     this.itemsRef = firebaseApp.database().ref();
   }
 
+  /* Happens when the component renders */
   componentDidMount() {
-    /* Sets the initial state of the component */
+    /* Sets the initial state of the component to 'Pizza' */
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows([{ title: 'Pizza' }])
     })
@@ -58,7 +67,7 @@ class GroceryApp extends Component {
   /* This happens after data is changed in the UI */
   _renderItem(item) {
 
-    /* This happens..... */
+    /* This happens when clicking on an item, an option pops up to COMPLETE or CANCEL. Complete removes the item. */
     const onPress = () => {
       AlertIOS.prompt(
         'Complete',
